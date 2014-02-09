@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# this script is used to attach a site to the current apache installation
+if [ -z "$1" ]
+then
+	echo "You must define a project to attach"
+	exit 1
+fi
+
+if [ ! -f ~/workspace/$1/conf/sandbox.conf ]
+then
+	echo "A sandbox.conf file does not exist for this project"
+	exit 1
+fi
+
+echo "Attaching site $1"
+
+ln -s ~/workspace/$1/conf/sandbox.conf /etc/apache2/sites-available/$1.conf
+
+a2ensite $1.conf > /dev/null
+
+service apache2 restart

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# this script is used to attach a site to the current apache installation
+if [ -z "$1" ]
+then
+	echo "You must define a project to detach"
+	exit 1
+fi
+
+echo "Detaching site $1"
+
+a2dissite $1 > /dev/null
+
+service apache2 restart
+
+unlink /etc/apache2/sites-available/$1.conf

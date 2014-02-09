@@ -1,0 +1,41 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Add APT GPG signing key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB state=present
+
+- name: Add APT repository
+  apt_repository: repo='deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
+
+- name: Install MariaDB server package
+  apt: name=mariadb-server state=present
+
+- name: Start MySql(MariaDb) Service
+  service: name=mysql state=started enabled=true
+
+- name: Install python Mysql package required for mysql_db tasks
+  apt: name=python-mysqldb state=present
+
+- name: Setup MySQL root password
+  mysql_user: name=root password=password host={{ item }} state=present
+  with_items:
+    - $ansible_hostname
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Setup MySQL creds for root user
+  copy: src=mysql dest=~/.my.cnf owner=root mode=0600
+
+- name: Delete blank MySQL users
+  mysql_user: name="" host={{ item }} state=absent
+  with_items:
+    - $ansible_hostname
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Drop MySQL test database
+  mysql_db: name=test state=absent
+

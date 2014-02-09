@@ -1,0 +1,154 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install Sandbox Packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - apache2
+    - libapache2-mod-gnutls
+    - php5
+    - php5-dev
+    - php5-cli
+    - php5-curl
+    - php5-intl
+    - php5-gmp
+    - php5-gd
+    - php5-json
+    - php5-imagick
+    - php5-mcrypt
+    - php5-memcache
+    - php5-memcached
+    - php5-mongo
+    - php5-mysqlnd
+    - php5-sqlite
+    - php5-xmlrpc
+    - php5-xsl
+    - php-pear
+    - ruby-sass
+    - nodejs
+    - python-nltk
+    - python-sphinx
+    - libpcre3-dev
+    - libcv2.4
+    - libcv-dev
+    - build-essential
+    - vim
+
+- name: Disable mod_ssl
+  command: a2dismod ssl
+
+- name: Activate Apache modules
+  command: a2enmod rewrite deflate expires env headers setenvif gnutls
+
+- name: Generate SnakeOil Certificates
+  command: make-ssl-cert generate-default-snakeoil --force-overwrite
+
+- name: Deactivate default vhost
+  command: a2dissite 000-default.conf
+
+- name: Set Apache Runtime Envvars
+  lineinfile: dest=/etc/apache2/envvars regexp='export APACHE_RUN_{{item}}=www-data' line='export APACHE_RUN_{{item}}=vagrant' state=present
+  with_items:
+  - USER
+  - GROUP
+
+- name: Copy sandbox site control
+  copy: src={{item}} dest=/usr/local/bin/ owner=root mode=0755
+  with_items:
+  - attach-site
+  - detach-site
+
+- name: Set PHP timezone
+  lineinfile: dest={{item}}.ini regexp=';date.timezone =' line='date.timezone = "Europe/London"' state=present
+  with_items:
+  - /etc/php5/apache2/php
+  - /etc/php5/cli/php
+
+- name: Set Pear Config
+  command: "{{item}}"
+  with_items:
+  - pear config-set preferred_state beta
+  - pear config-set auto_discover 1
+
+- name: Install PHP XDebug Extension
+  command: pecl install xdebug
+  ignore_errors: yes
+
+- name: Configure XDebug
+  copy: src=xdebug.ini dest=/etc/php5/mods-available owner=root mode=0755
+
+- name: Link XDebug to PHP SAPIs
+  command: "ln -s /etc/php5/mods-available/xdebug.ini /etc/php5/{{item}}/conf.d/05-xdebug.ini"
+  with_items:
+  - apache2
+  - cli
+  ignore_errors: yes
+
+- name: Install PHP Oauth Extension
+  command: pecl install oauth
+  ignore_errors: yes
+
+- name: Configure PHP Outh
+  copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
+
+- name: Link PHP Oauth to PHP SAPIs
+  command: "ln -s /etc/php5/mods-available/oauth.ini /etc/php5/{{item}}/conf.d/20-oauth.ini"
+  with_items:
+  - apache2
+  - cli
+  ignore_errors: yes
+
+- name: Install PHPDocumentor
+  command: "{{item}}"
+  with_items:
+  - pear channel-discover pear.phpdoc.org
+  - pear install --alldeps phpdoc/phpDocumentor
+  ignore_errors: yes
+
+- name: Install PHPUnit
+  command: "{{item}}"
+  with_items:
+  - pear channel-discover pear.phpunit.de
+  - pear install --alldeps phpunit/PHPUnit
+  ignore_errors: yes
+
+- name: Install Phing
+  command: "{{item}}"
+  with_items:
+  - pear channel-discover pear.phing.info
+  - pear install --alldeps phing/phing
+  ignore_errors: yes
+
+#- name Install ZMQ PHP Extension
+#  command: pecl install zmq-beta
+
+- name: Install Composer
+  shell: "{{item}}"
+  with_items:
+   - curl -sS https://getcomposer.org/installer | php
+   - mv composer.phar /usr/local/bin/composer
+
+- name: Install CodeCeption
+  shell: "{{item}}"
+  with_items:
+   - wget http://codeception.com/codecept.phar
+   - mv codecept.phar /usr/local/bin/codecept
+
+
+- name: Link .ssh folder
+  command: mv -f /home/vagrant/.ssh/authorized_keys /home/vagrant/workspace/.ssh/
+- command: rm -rf /home/vagrant/.ssh
+- command: ln -s /home/vagrant/workspace/.ssh /home/vagrant/.ssh
+
+- name: Link .gitconfig folder
+  command: ln -s /home/vagrant/workspace/.gitconfig /home/vagrant/.gitconfig
+
+- name: Restarted Apache is running
+  service: name=apache2 state=restarted
+
+- name: Start Apache
+  service: name=apache2 state=running enabled=yes
+
+- name: Restarted Apache is running
+  service: name=apache2 state=restarted
