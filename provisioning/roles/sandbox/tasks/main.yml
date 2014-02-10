@@ -34,6 +34,7 @@
     - libcv-dev
     - build-essential
     - vim
+    - git
 
 - name: Disable mod_ssl
   command: a2dismod ssl
