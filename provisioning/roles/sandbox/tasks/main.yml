@@ -89,7 +89,7 @@
   command: pecl install oauth
   ignore_errors: yes
 
-- name: Configure PHP Outh
+- name: Configure PHP Oauth
   copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link PHP Oauth to PHP SAPIs
