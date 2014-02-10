@@ -90,7 +90,7 @@
   command: pecl install oauth
   ignore_errors: yes
 
-- name: Configure PHP Outh
+- name: Configure PHP Oauth
   copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link PHP Oauth to PHP SAPIs
@@ -135,7 +135,6 @@
   with_items:
    - wget http://codeception.com/codecept.phar
    - mv codecept.phar /usr/local/bin/codecept
-
 
 - name: Link .ssh folder
   command: mv -f /home/vagrant/.ssh/authorized_keys /home/vagrant/workspace/.ssh/
