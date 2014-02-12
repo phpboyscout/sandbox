@@ -141,8 +141,8 @@
 #- command: rm -rf /home/vagrant/.ssh
 #- command: ln -s /home/vagrant/workspace/.ssh /home/vagrant/.ssh
 
-- name: Link .gitconfig folder
-  command: ln -s /home/vagrant/workspace/.gitconfig /home/vagrant/.gitconfig
+#- name: Link .gitconfig folder
+#  command: ln -s /home/vagrant/workspace/.gitconfig /home/vagrant/.gitconfig
 
 - name: Restarted Apache is running
   service: name=apache2 state=restarted
