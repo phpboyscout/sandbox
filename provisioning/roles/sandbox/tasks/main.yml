@@ -151,3 +151,6 @@
 
 - name: Restarted Apache is running
   service: name=apache2 state=restarted
+
+- name: Create Locate DB
+  command: updatedb
