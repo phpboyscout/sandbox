@@ -71,6 +71,7 @@
   with_items:
   - pear config-set preferred_state beta
   - pear config-set auto_discover 1
+  ignore_errors: yes
 
 - name: Install PHP XDebug Extension
   command: pecl install xdebug
