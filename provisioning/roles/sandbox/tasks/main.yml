@@ -156,3 +156,6 @@
 
 - name: Create Locate DB
   command: updatedb
+
+- name: Add Vagrant User to Admin Group
+  command: usermod -aG adm vagrant
