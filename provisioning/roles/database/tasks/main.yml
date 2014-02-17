@@ -26,7 +26,7 @@
     - localhost
 
 - name: Setup MySQL creds for root user
-  copy: src=mysql dest=~/.my.cnf owner=root mode=0600
+  copy: src=mysql dest=/home/vagrant/.my.cnf owner=vagrant mode=0600
 
 - name: Delete blank MySQL users
   mysql_user: name="" host={{ item }} state=absent
