@@ -139,14 +139,6 @@
    - wget http://codeception.com/codecept.phar
    - mv codecept.phar /usr/local/bin/codecept
 
-#- name: Link .ssh folder
-#  command: mv -f /home/vagrant/.ssh/authorized_keys /home/vagrant/workspace/.ssh/
-#- command: rm -rf /home/vagrant/.ssh
-#- command: ln -s /home/vagrant/workspace/.ssh /home/vagrant/.ssh
-
-#- name: Link .gitconfig folder
-#  command: ln -s /home/vagrant/workspace/.gitconfig /home/vagrant/.gitconfig
-
 - name: Restarted Apache is running
   service: name=apache2 state=restarted
 
