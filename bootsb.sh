@@ -10,7 +10,12 @@ then
 	exit 1	
 fi
 
-cd ~/zucchi/workspace/$BOXNAME
+if [ -d ~/zucchi ]
+then
+    cd ~/zucchi/workspace/$BOXNAME
+else
+    cd ~/workspace/$BOXNAME
+fi
 
 case "$1" in
     'start')
