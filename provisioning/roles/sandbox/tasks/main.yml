@@ -34,8 +34,7 @@
     - libcv-dev
     - build-essential
     - vim
-    - git-core
-    - memcache
+    - git
     - memcached
 
 - name: Disable mod_ssl
