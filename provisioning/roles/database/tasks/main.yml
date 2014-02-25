@@ -1,7 +1,4 @@
 ---
-- name: Update apt cache
-  apt: update_cache=yes
-
 - name: Add APT GPG signing key
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB state=present
 

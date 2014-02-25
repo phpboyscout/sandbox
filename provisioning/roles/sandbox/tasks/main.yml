@@ -1,7 +1,4 @@
 ---
-- name: Update apt cache
-  apt: update_cache=yes
-
 - name: Install Sandbox Packages
   apt: pkg={{ item }} state=latest
   with_items:
