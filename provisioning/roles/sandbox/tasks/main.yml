@@ -150,7 +150,7 @@
 - name: Add Vagrant User to Admin Group
   command: usermod -aG adm vagrant
 
-- name: Add setting to Set Selections
+- name: Add Postfix setting to Set Selections
   command: debconf-set-selections <<< "{{item}}"
   with_items:
   - postfix postfix/mailname string sandbox.creatingit.co.uk
