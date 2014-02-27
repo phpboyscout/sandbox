@@ -6,8 +6,9 @@ BOXNAME=sandbox
 
 if [ -z "$1" ]
 then
-	echo "You must provide start or stop"
-	exit 1	
+    COMMAND=start
+else
+    COMMAND=$1
 fi
 
 if [ -d ~/zucchi ]
@@ -17,7 +18,7 @@ else
     cd ~/workspace/$BOXNAME
 fi
 
-case "$1" in
+case "$COMMAND" in
     'start')
         vagrant up
         vagrant ssh
