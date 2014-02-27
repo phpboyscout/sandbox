@@ -25,7 +25,6 @@ case "$1" in
 
     'stop')
         vagrant halt
-
     ;;
 
     'restart')
@@ -34,6 +33,7 @@ case "$1" in
     ;;
 
     'update')
+        git pull origin master
         vagrant provision
     ;;
 esac
