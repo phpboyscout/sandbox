@@ -20,3 +20,9 @@ ln -s ~/workspace/$1/conf/sandbox.conf /etc/apache2/sites-available/$1.conf
 a2ensite $1.conf > /dev/null
 
 service apache2 restart
+
+if [ ! -f ~/workspace/$1/assets/db/sandbox.sql ]
+then
+    echo "Attaching Database"
+    mysql < ~/workspace/$1/assets/db/sandbox.sql
+fi
