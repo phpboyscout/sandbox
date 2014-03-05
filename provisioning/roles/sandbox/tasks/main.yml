@@ -149,5 +149,8 @@
 - name: Install Postfix
   apt: pkg=postfix state=latest
 
+- name: Start Memcached
+  service: name=memcached state=running enabled=yes
+
 - name: Create Locate DB
   command: updatedb
