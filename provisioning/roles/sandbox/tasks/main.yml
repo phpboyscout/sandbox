@@ -128,15 +128,6 @@
    - wget http://codeception.com/codecept.phar
    - mv codecept.phar /usr/local/bin/codecept
 
-- name: Restarted Apache is running
-  service: name=apache2 state=restarted
-
-- name: Start Apache
-  service: name=apache2 state=running enabled=yes
-
-- name: Restarted Apache is running
-  service: name=apache2 state=restarted
-
 - name: Add Vagrant User to Admin Group
   command: usermod -aG adm vagrant
 
@@ -151,6 +142,9 @@
 
 - name: Start Memcached
   service: name=memcached state=running enabled=yes
+
+- name: Start Apache
+  service: name=apache2 state=running enabled=yes
 
 - name: Create Locate DB
   command: updatedb
