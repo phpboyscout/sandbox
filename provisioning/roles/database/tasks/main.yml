@@ -22,7 +22,7 @@
     - ::1
     - localhost
 
-- name: Setup MySQL creds for root user
+- name: Setup MySQL creds for root and vagrant user
   copy: src=mysql dest=/home/vagrant/.my.cnf owner=vagrant mode=0600
 - copy: src=mysql dest=/root/.my.cnf owner=root mode=0600
 
