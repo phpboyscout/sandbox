@@ -33,6 +33,7 @@
     - vim
     - git
     - memcached
+    - tree
 
 - name: Disable mod_ssl
   command: a2dismod ssl
