@@ -14,8 +14,6 @@
     - php5-json
     - php5-imagick
     - php5-mcrypt
-    - php5-memcache
-    - php5-memcached
     - php5-mongo
     - php5-mysqlnd
     - php5-sqlite
@@ -33,6 +31,10 @@
     - vim
     - git
     - memcached
+    - libmemcached-dev
+    - libmemcached10
+    - libmemcache-dev
+    - libmemcache0
     - tree
 
 - name: Disable mod_ssl
@@ -95,6 +97,13 @@
   - pear.phing.info
   ignore_errors: yes
 
+- name: Install Pecl Components
+  command: "pecl install {{item}}"
+  with_items:
+  - memcache
+  - memcached
+  ignore_errors: yes
+
 - name: Install Pear Components
   command: "pear install --alldeps --force {{item}}"
   with_items:
@@ -113,8 +122,15 @@
   - cli
   ignore_errors: yes
 
-#- name Install ZMQ PHP Extension
-#  command: pecl install zmq-beta
+- name: Configure PHP Memcache
+  copy: src=memcache.ini dest=/etc/php5/mods-available owner=root mode=0755
+
+- name: Link Memcache to PHP SAPIs
+  file: src=../../mods-available/memcache.ini path=/etc/php5/{{item}}/conf.d/20-memcache.ini state=link
+  with_items:
+  - apache2
+  - cli
+  ignore_errors: yes
 
 - name: Install Composer
   shell: "{{item}}"
