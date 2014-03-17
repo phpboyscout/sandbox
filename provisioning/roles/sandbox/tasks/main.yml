@@ -74,20 +74,6 @@
   - pear config-set auto_discover 1
   ignore_errors: yes
 
-- name: Install PHP Oauth Extension
-  command: pecl install oauth
-  ignore_errors: yes
-
-- name: Configure PHP Oauth
-  copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
-
-- name: Link PHP Oauth to PHP SAPIs
-  file: src=/etc/php5/mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
-  with_items:
-  - apache2
-  - cli
-  ignore_errors: yes
-
 - name: Add Pear Channels
   command: "pear channel-discover {{item}}"
   with_items:
@@ -99,6 +85,7 @@
 - name: Install Pecl Components
   command: "pecl install {{item}}"
   with_items:
+  - oauth
   - xdebug
   - memcache
   - memcached
@@ -110,6 +97,16 @@
   - phpdoc/phpDocumentor
   - phpunit/PHPUnit
   - phing/phing
+  ignore_errors: yes
+
+- name: Configure PHP Oauth
+  copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
+
+- name: Link PHP Oauth to PHP SAPIs
+  file: src=/etc/php5/mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
+  with_items:
+  - apache2
+  - cli
   ignore_errors: yes
 
 - name: Configure XDebug
