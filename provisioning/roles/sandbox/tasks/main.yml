@@ -91,7 +91,6 @@
 - name: Add Pear Channels
   command: "pear channel-discover {{item}}"
   with_items:
-  - xdebug
   - pear.phpdoc.org
   - pear.phpunit.de
   - pear.phing.info
@@ -100,6 +99,7 @@
 - name: Install Pecl Components
   command: "pecl install {{item}}"
   with_items:
+  - xdebug
   - memcache
   - memcached
   ignore_errors: yes
@@ -116,7 +116,7 @@
   copy: src=xdebug.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link XDebug to PHP SAPIs
-  file: src=/etc/php5/mods-available/xdebug.ini path=/etc/php5/{{item}}/conf.d/05-xdebug.ini state=link
+  file: src=../../mods-available/xdebug.ini path=/etc/php5/{{item}}/conf.d/05-xdebug.ini state=link
   with_items:
   - apache2
   - cli
