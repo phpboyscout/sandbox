@@ -87,8 +87,11 @@
   with_items:
   - oauth
   - xdebug
-  - memcache
   - memcached
+  ignore_errors: yes
+
+- name: "Install Memcache"
+  action: shell printf "yes\n" | pecl install memcache
   ignore_errors: yes
 
 - name: Install Pear Components
