@@ -35,6 +35,17 @@ case "$COMMAND" in
 
     'update')
         git pull origin master
+        vagrant up
         vagrant provision
+    ;;
+
+    'rebuild')
+        vagrant ssh -c "mysqldump -c --opt --all-databases > ~/workspace/sql/mysql_rebuild_bck.sql"
+        vagrant halt
+        vagrant destroy
+        vagrant up
+        vagrant shh -c "mysql < ~/workspace/sql/mysql_rebuild_bck.sql"
+        vagrant ssh -c "rm -f ~/workspace/sql/mysql_rebuild_bck.sql"
+        vagrant ssh
     ;;
 esac
