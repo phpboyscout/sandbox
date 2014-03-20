@@ -106,7 +106,7 @@
   copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link PHP Oauth to PHP SAPIs
-  file: src=/etc/php5/mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
+  file: src=../../mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
   with_items:
   - apache2
   - cli
