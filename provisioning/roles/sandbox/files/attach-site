@@ -21,7 +21,7 @@ a2ensite $1.conf > /dev/null
 
 service apache2 restart
 
-if [ ! -f ~/workspace/$1/assets/db/sandbox.sql ]
+if [ -f ~/workspace/$1/assets/db/sandbox.sql ]
 then
     echo "Attaching Database"
     mysql < ~/workspace/$1/assets/db/sandbox.sql
