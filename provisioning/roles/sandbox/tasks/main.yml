@@ -74,7 +74,7 @@
   - /etc/php5/cli/php
 
 - name: Set PHP post size
-  lineinfile: dest={{item}}.ini regexp='post_max_size = 8M' line='post_max_size = 10M' state=present
+  lineinfile: dest={{item}}.ini regexp='post_max_size = 8M' line='post_max_size = 12M' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
