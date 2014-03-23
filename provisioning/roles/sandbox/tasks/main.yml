@@ -1,4 +1,7 @@
 ---
+- name: Add Vagrant User to Admin Group
+  command: usermod -aG adm vagrant
+
 - name: Install Sandbox Packages
   apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
@@ -155,9 +158,6 @@
   with_items:
    - wget http://codeception.com/codecept.phar
    - mv codecept.phar /usr/local/bin/codecept
-
-- name: Add Vagrant User to Admin Group
-  command: usermod -aG adm vagrant
 
 - name: Add Postfix setting to Set Selections
   command: debconf-set-selections <<< "{{item}}"
