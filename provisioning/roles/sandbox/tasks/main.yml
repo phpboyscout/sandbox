@@ -169,10 +169,10 @@
   apt: pkg=postfix state=latest
 
 - name: Start Memcached
-  service: name=memcached state=running enabled=yes
+  service: name=memcached state=restarted enabled=yes
 
 - name: Start Apache
-  service: name=apache2 state=running enabled=yes
+  service: name=apache2 state=restarted enabled=yes
 
 - name: Create Locate DB
   command: updatedb
