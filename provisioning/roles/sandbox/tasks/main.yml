@@ -1,6 +1,6 @@
 ---
 - name: Install Sandbox Packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
     - apache2
     - libapache2-mod-gnutls
