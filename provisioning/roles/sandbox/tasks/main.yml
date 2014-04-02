@@ -52,6 +52,12 @@
 - name: Deactivate default vhost
   command: a2dissite 000-default.conf
 
+- name: Copy Apache Default Server conf over
+  copy: src=server dest=/etc/apache2/conf-available/server.conf
+
+- name: Activate Server Conf
+  command: a2enconf server.conf
+
 - name: Set Apache Runtime Envvars
   lineinfile: dest=/etc/apache2/envvars regexp='export APACHE_RUN_{{item}}=www-data' line='export APACHE_RUN_{{item}}=vagrant' state=present
   with_items:
