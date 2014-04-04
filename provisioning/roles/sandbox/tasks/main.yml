@@ -59,7 +59,7 @@
   command: a2enconf server.conf
 
 - name: Set Apache Runtime Envvars
-  lineinfile: dest=/etc/apache2/envvars regexp='export APACHE_RUN_{{item}}=www-data' line='export APACHE_RUN_{{item}}=vagrant' state=present
+  lineinfile: dest=/etc/apache2/envvars regexp='(export APACHE_RUN_{{item}}=www-data|export APACHE_RUN_{{item}}=vagrant)' line='export APACHE_RUN_{{item}}=vagrant' state=present
   with_items:
   - USER
   - GROUP
@@ -71,31 +71,31 @@
   - detach-site
 
 - name: Set PHP timezone
-  lineinfile: dest={{item}}.ini regexp=';date.timezone =' line='date.timezone = "Europe/London"' state=present
+  lineinfile: dest={{item}}.ini regexp='(;date.timezone =|date.timezone = "Europe/London")' line='date.timezone = "Europe/London"' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
 
 - name: Set PHP Display Errors
-  lineinfile: dest={{item}}.ini regexp='; display_errors' line='display_errors=On "Europe/London"' state=present
+  lineinfile: dest={{item}}.ini regexp='(display_errors = Off|display_errors=On)' line='display_errors=On' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
 
 - name: Set PHP Error Reporting
-  lineinfile: dest={{item}}.ini regexp='; error_reporting' line='error_reporting=E_ALL "Europe/London"' state=present
+  lineinfile: dest={{item}}.ini regexp='(error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT|error_reporting=E_ALL)' line='error_reporting=E_ALL' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
 
 - name: Set PHP upload filesize
-  lineinfile: dest={{item}}.ini regexp='upload_max_filesize = 2M' line='upload_max_filesize = 10M' state=present
+  lineinfile: dest={{item}}.ini regexp='(upload_max_filesize = 2M|upload_max_filesize = 10M)' line='upload_max_filesize = 10M' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
 
 - name: Set PHP post size
-  lineinfile: dest={{item}}.ini regexp='post_max_size = 8M' line='post_max_size = 12M' state=present
+  lineinfile: dest={{item}}.ini regexp='(post_max_size = 8M|post_max_size = 12M)' line='post_max_size = 12M' state=present
   with_items:
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
