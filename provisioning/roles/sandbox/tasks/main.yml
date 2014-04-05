@@ -99,7 +99,6 @@
   with_items:
   - oauth
   - xdebug
-  - memcached
   ignore_errors: yes
 
 - name: "Install Memcache"

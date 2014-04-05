@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, ip: "192.168.56.200"
   config.vm.synced_folder "../", "/home/vagrant/workspace/"
   config.vm.hostname = "sandbox"
+  config.vbguest.no_remote = false
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "Sandbox"
@@ -23,5 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "provisioning/playbook.yml"
     ansible.inventory_path = "vagrant-inventory"
     ansible.host_key_checking = "false"
+    ansible.limit = 'all'
   end
 end
