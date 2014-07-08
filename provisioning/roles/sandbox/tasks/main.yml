@@ -1,6 +1,12 @@
 ---
 - name: Add Vagrant User to Admin Group
   command: usermod -aG adm vagrant
+  
+- name: Update Server Package List
+  apt: update_cache=yes
+     
+- name: Upgrade Server Packages
+  apt: upgrade=full
 
 - name: Install Sandbox Packages
   apt: pkg={{ item }} state=latest update_cache=yes
@@ -22,6 +28,8 @@
     - php5-sqlite
     - php5-xmlrpc
     - php5-xsl
+    - php5-memcache
+    - php5-memcached
     - php-pear
     - ruby-sass
     - nodejs
@@ -33,11 +41,8 @@
     - build-essential
     - vim
     - git
+    - subversion
     - memcached
-    - libmemcached-dev
-    - libmemcached10
-    - libmemcache-dev
-    - libmemcache0
     - tree
 
 - name: Disable mod_ssl
@@ -122,10 +127,6 @@
   - xdebug
   ignore_errors: yes
 
-- name: "Install Memcache"
-  action: shell printf "yes\n" | sudo pecl install memcache
-  ignore_errors: yes
-
 - name: Install Pear Components
   command: "pear install --alldeps --force {{item}}"
   with_items:
@@ -154,16 +155,6 @@
   - cli
   ignore_errors: yes
 
-- name: Configure PHP Memcache
-  copy: src=memcache.ini dest=/etc/php5/mods-available owner=root mode=0755
-
-- name: Link Memcache to PHP SAPIs
-  file: src=../../mods-available/memcache.ini path=/etc/php5/{{item}}/conf.d/20-memcache.ini state=link
-  with_items:
-  - apache2
-  - cli
-  ignore_errors: yes
-
 - name: Install Composer
   shell: "{{item}}"
   with_items:
@@ -184,12 +175,6 @@
 
 - name: Install Postfix
   apt: pkg=postfix state=latest
-
-- name: Start Memcached
-  service: name=memcached state=restarted enabled=yes
-
-- name: Start Apache
-  service: name=apache2 state=restarted enabled=yes
 
 - name: Create Locate DB
   command: updatedb
