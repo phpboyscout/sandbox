@@ -105,6 +105,13 @@
   - /etc/php5/apache2/php
   - /etc/php5/cli/php
 
+- name: Link PHP Mcrypt to PHP SAPIs (because Ubuntu doesnt)
+  file: src=../../mods-available/mcrypt.ini path=/etc/php5/{{item}}/conf.d/20-mcrypt.ini state=link
+  with_items:
+  - apache2
+  - cli
+  ignore_errors: yes
+
 - name: Set Pear Config
   command: "{{item}}"
   with_items:
