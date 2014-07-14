@@ -1,0 +1,10 @@
+---
+- name: Add apt repository
+  apt_repository: repo='ppa:nginx/stable' update_cache=yes
+  apt-key: id=C300EE8C url=https://keyserver.ubuntu.com state=present
+
+
+- name: Install Nginx
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+   - nginx

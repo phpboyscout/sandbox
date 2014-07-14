@@ -1,0 +1,9 @@
+---
+- hosts: nodejs
+  user: vagrant
+  sudo: yes
+  roles:
+    - common
+    - mariadb
+    - nodejs
+    - apache

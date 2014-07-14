@@ -1,0 +1,9 @@
+---
+- hosts: ruby
+  user: vagrant
+  sudo: yes
+  roles:
+    - common
+    - mariadb
+    - ruby
+    - nginx

@@ -1,0 +1,9 @@
+---
+- hosts: java
+  user: vagrant
+  sudo: yes
+  roles:
+    - common
+    - mariadb
+    - java
+    - apache

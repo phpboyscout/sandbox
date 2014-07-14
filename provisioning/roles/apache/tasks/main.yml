@@ -1,0 +1,42 @@
+---
+
+- name: Install Sandbox Packages
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+    - apache2
+    - libapache2-mod-gnutls
+
+- name: Disable mod_ssl
+  command: a2dismod ssl
+
+- name: Activate Apache modules
+  command: a2enmod rewrite deflate expires env headers setenvif gnutls
+
+- name: Generate SnakeOil Certificates
+  command: make-ssl-cert generate-default-snakeoil --force-overwrite
+
+- name: Deactivate default vhost
+  command: a2dissite 000-default.conf
+
+- name: Copy Apache Default Server conf over
+  copy: src=server dest=/etc/apache2/conf-available/server.conf
+
+- name: Activate Server Conf
+  command: a2enconf server.conf
+
+- name: Set Apache Runtime Envvars
+  lineinfile: dest=/etc/apache2/envvars regexp='(export APACHE_RUN_{{item}}=www-data|export APACHE_RUN_{{item}}=vagrant)' line='export APACHE_RUN_{{item}}=vagrant' state=present
+  with_items:
+  - USER
+  - GROUP
+  notify:
+   - restart apache
+
+- name: Copy sandbox site control
+  copy: src={{item}} dest=/usr/local/bin/ owner=root mode=0755
+  with_items:
+  - attach-site
+  - detach-site
+
+- name: Create Locate DB
+  command: updatedb

@@ -1,7 +1,0 @@
----
-- hosts: vagrant
-  user: vagrant
-  sudo: yes
-  roles:
-    - database
-    - sandbox

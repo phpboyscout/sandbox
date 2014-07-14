@@ -1,0 +1,38 @@
+---
+- name: Add Vagrant User to Admin Group
+  command: usermod -aG adm vagrant
+  
+- name: Update Server Package List
+  apt: update_cache=yes
+     
+- name: Upgrade Server Packages
+  apt: upgrade=full
+
+- name: Add Postfix setting to Set Selections
+  command: debconf-set-selections <<< "{{item}}"
+  with_items:
+  - postfix postfix/mailname string sandbox.creatingit.co.uk
+  - postfix postfix/main_mailer_type string 'Internet Site'
+
+
+- name: Install Commoon Packages
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+    - ruby-sass
+    - nodejs
+    - python-nltk
+    - python-sphinx
+    - python-software-properties
+    - libpcre3-dev
+    - libcv2.4
+    - libcv-dev
+    - build-essential
+    - vim
+    - git
+    - subversion
+    - tree
+    - postfix
+    - curl
+
+- name: Create Locate DB
+  command: updatedb

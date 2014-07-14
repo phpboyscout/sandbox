@@ -1,0 +1,9 @@
+---
+- hosts: php
+  user: vagrant
+  sudo: yes
+  roles:
+    - common
+    - mariadb
+    - php
+    - apache

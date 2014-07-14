@@ -1,0 +1,6 @@
+---
+- name: Install Ruby Packages
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+    - rails
+
