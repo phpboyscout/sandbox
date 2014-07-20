@@ -15,7 +15,7 @@
   - postfix postfix/main_mailer_type string 'Internet Site'
 
 
-- name: Install Commoon Packages
+- name: Install Common Packages
   apt: pkg={{ item }} state=latest update_cache=yes
   with_items:
     - ruby-sass

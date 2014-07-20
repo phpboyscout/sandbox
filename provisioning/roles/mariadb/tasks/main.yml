@@ -15,12 +15,14 @@
   apt: name=python-mysqldb state=present
 
 - name: Setup MySQL root password
-  mysql_user: name=root password=password host={{ item }} state=present
+  mysql_user: name=root password=password host={{ item }} priv=*.*:ALL,GRANT state=present
   with_items:
+    - "%"
     - $ansible_hostname
     - 127.0.0.1
     - ::1
     - localhost
+
 
 - name: Setup MySQL creds for root and vagrant user
   copy: src=mysql dest=/home/vagrant/.my.cnf owner=vagrant mode=0600
@@ -33,6 +35,9 @@
     - 127.0.0.1
     - ::1
     - localhost
+
+- name: disable MySQL bind_address
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^bind-address(.*)$" line="#bind_address \1" backrefs=yes
 
 - name: Drop MySQL test database
   mysql_db: name=test state=absent
