@@ -92,7 +92,7 @@
   copy: src=oauth.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link PHP Oauth to PHP SAPIs
-  file: src=../../mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
+  file: src=/etc/php5/mods-available/oauth.ini path=/etc/php5/{{item}}/conf.d/20-oauth.ini state=link
   with_items:
   - apache2
   - cli
@@ -102,7 +102,7 @@
   copy: src=xdebug.ini dest=/etc/php5/mods-available owner=root mode=0755
 
 - name: Link XDebug to PHP SAPIs
-  file: src=../../mods-available/xdebug.ini path=/etc/php5/{{item}}/conf.d/05-xdebug.ini state=link
+  file: src=/etc/php5/mods-available/xdebug.ini path=/etc/php5/{{item}}/conf.d/05-xdebug.ini state=link
   with_items:
   - apache2
   - cli
