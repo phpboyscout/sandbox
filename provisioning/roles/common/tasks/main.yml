@@ -27,6 +27,7 @@
     - libcv2.4
     - libcv-dev
     - build-essential
+    - memcached
     - vim
     - git
     - subversion
