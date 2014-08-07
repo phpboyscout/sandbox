@@ -5,7 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 VAGRANT_OS = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 VAGRANT_SYNC_FOLDER = "../"
 VAGRANT_HOSTNAME = "sandbox"
-VAGRANT_MEMORY = "1024"
+VAGRANT_MEMORY = "2048"
 
 PHP_IP = "192.168.56.200"
 JAVA_IP = "192.168.56.201"

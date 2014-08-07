@@ -19,12 +19,12 @@ unlink /etc/apache2/sites-available/$1.conf
 
 if [ -d ~/workspace/$1 ]
 then
-    read -r -p "Backup the database? [Y|n] " response
+    read -r -p "Backup the database? [y|N] " response
     if [[ $response =~ ^[Yy]$ ]]
     then
         echo "Backing up SQL database"
         mkdir -p ~/workspace/$1/assets/db/
-        mysqldump --opt -c --add-drop-database --add-drop-table --dump-date --databases $1 > ~/workspace/$1/assets/db/sandbox.sql
+        mysqldump --opt -c --max_allowed_packet=512M --add-drop-database --add-drop-table --dump-date --databases $1 > ~/workspace/$1/assets/db/sandbox.sql
         echo " > ~/workspace/$1/assets/db/sandbox.sql"
     fi
 fi
