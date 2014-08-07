@@ -35,5 +35,8 @@
     - postfix
     - curl
 
+- name: Add vboxsf to /etc/modules to fix shared folder availability on boot
+  lineinfile: dest=/etc/modules line='vboxsf' state=present
+
 - name: Create Locate DB
   command: updatedb
