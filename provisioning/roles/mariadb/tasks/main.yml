@@ -39,6 +39,12 @@
 - name: disable MySQL bind_address
   lineinfile: dest=/etc/mysql/my.cnf regexp="^bind-address(.*)$" line="#bind_address \1" backrefs=yes
 
+- name: increase wait timeout
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^wait_timeout(.*)$" line="wait_timout=1200" backrefs=yes
+
+- name: increase allowed packet size
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^max_allowed_packet(.*)$" line="max_allowed_packet=256M" backrefs=yes
+
 - name: Drop MySQL test database
   mysql_db: name=test state=absent
 

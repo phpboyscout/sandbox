@@ -98,6 +98,13 @@
   - cli
   ignore_errors: yes
 
+- name: Link PHP Mcrypt to PHP SAPIs (because ubuntu doesnt)
+  file: src=/etc/php5/mods-available/mcrypt.ini path=/etc/php5/{{item}}/conf.d/20-mcrypt.ini state=link
+  with_items:
+  - apache2
+  - cli
+  ignore_errors: yes
+
 - name: Configure XDebug
   copy: src=xdebug.ini dest=/etc/php5/mods-available owner=root mode=0755
 
