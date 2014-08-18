@@ -14,6 +14,9 @@
 - name: Install python Mysql package required for mysql_db tasks
   apt: name=python-mysqldb state=present
 
+- name: Set Custom Config file
+  copy: src=mariadb.cnf dest=/etc/mysql/conf.d/mariadb.cnf owner=root mode=0644
+
 - name: Setup MySQL root password
   mysql_user: name=root password=password host={{ item }} priv=*.*:ALL,GRANT state=present
   with_items:
@@ -40,7 +43,7 @@
   lineinfile: dest=/etc/mysql/my.cnf regexp="^bind-address(.*)$" line="#bind_address \1" backrefs=yes
 
 - name: increase wait timeout
-  lineinfile: dest=/etc/mysql/my.cnf regexp="^wait_timeout(.*)$" line="wait_timout=1200" backrefs=yes
+  lineinfile: dest=/etc/mysql/my.cnf regexp="^wait_timeout(.*)$" line="wait_timeout=1200" backrefs=yes
 
 - name: increase allowed packet size
   lineinfile: dest=/etc/mysql/my.cnf regexp="^max_allowed_packet(.*)$" line="max_allowed_packet=256M" backrefs=yes
