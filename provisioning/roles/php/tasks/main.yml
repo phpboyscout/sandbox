@@ -116,9 +116,9 @@
   ignore_errors: yes
   
 - name: Install Ioncube Loader
-  copy: src=ioncube_loader_lin_5.5.so dest=/usr/lib/php5/20121212/ owner=root mode=0755
-  copy: src=ioncube.ini dest=/etc/php5/mods-available/inoncube.ini owner=root mode=0755
-- file: src=/etc/php5/mods-available/ioncube.ini path=/etc/php5/{{item}}/conf.d/05-inoncube.ini state=link
+  copy: src=ioncube_loader_lin_5.5.so dest=/usr/lib/php5/20121212/ioncube.so owner=root mode=0755
+  copy: src=ioncube.ini dest=/etc/php5/mods-available/ioncube.ini owner=root mode=0755 force=yes
+- file: src=/etc/php5/mods-available/ioncube.ini path=/etc/php5/{{item}}/conf.d/05-ioncube.ini state=link
   with_items:
   - apache2
   - cli
